@@ -97,6 +97,38 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   });
+  // --- 3D Tilt Effect on Project Cards ---
+  const cards = document.querySelectorAll('.project-card');
+  cards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+
+      const rotateX = ((y - centerY) / centerY) * -5; // max 5 deg
+      const rotateY = ((x - centerX) / centerX) * 5;
+
+      // Remove translateY and scale for a simple tilt without jump/zoom
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      card.style.transition = 'none'; // remove transition for instant follow
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+      card.style.transition = 'transform 0.5s ease, border-color 0.3s ease, box-shadow 0.3s ease';
+      // Reset transition to normal after it settles
+      setTimeout(() => {
+        card.style.transition = '';
+      }, 500);
+    });
+
+    card.addEventListener('mouseenter', () => {
+      card.style.transition = 'transform 0.1s ease'; // short transition when entering
+    });
+  });
 
   // --- Project Image Sliders ---
   document.querySelectorAll('.project-slider').forEach(slider => {

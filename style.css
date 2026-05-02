@@ -862,10 +862,10 @@ button {
   overflow: hidden;
   transition: var(--transition);
   position: relative;
+  transform-style: preserve-3d;
 }
 
 .project-card:hover {
-  transform: translateY(-8px);
   border-color: var(--accent);
   box-shadow: var(--shadow-lg);
 }
